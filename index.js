@@ -1,6 +1,18 @@
 const express = require('express');
 const app = express();
 const port = 8000;
+const db = require('./config/mongoose')
+
+app.use('/', require('./routes/index.js'));
+
+// selecting view engine and connecting to views
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+//Connecting to static folder with express middle
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('assets'));
+
 
 app.listen(port, function (err) {
     if (err) {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <div class="container">
+      <h1><%= title %></h1>
+      <form action="">
+        <label for="task-description"> Description </label>
+        <input type="text" name="task-description" />
+        <label for="task-category"> Category</label>
+        <select name="task-description">
+          <option value="work">Work</option>
+          <option value="school">School</option>
+          <option value="personal">Personal</option>
+          <option value="Other">Other</option>
+        </select>
+        <label for="due-date">Select Due date</label>
+        <input type="date" name="due-date" />
+        <button type="submit">Add Task</button>
+      </form>
+      <form action="">
+        <button type="submit">Delete Tasks</button>
+        <% taskList.forEach(element => { %>
+        <input type="checkbox" name="<% element.desc %> " />
+        <label for="<% element.desc %> "><%= element.desc %> </label>
+        <% }) %>
+      </form>
+    </div>
+  </body>
+</html>
