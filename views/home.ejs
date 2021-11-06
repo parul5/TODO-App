@@ -4,33 +4,98 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font family -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <link rel="stylesheet" href="./css/home.css" />
     <title><%= title %></title>
   </head>
   <body>
+    <!-- Container will have 2 forms : 
+        One to add new task
+        Another for deleting task -->
     <div class="container">
       <h1><%= title %></h1>
-      <form action="/add-task" method="post">
-        <label for="task-description"> Description </label>
-        <input type="text" name="description" />
-        <label for="category"> Category</label>
-        <select name="category">
-          <option value="work">Work</option>
-          <option value="school">School</option>
-          <option value="personal">Personal</option>
-          <option value="Other">Other</option>
-        </select>
-        <label for="dueDate">Select Due date</label>
-        <input type="date" name="dueDate" />
-        <button type="submit">Add Task</button>
+      <!-- First form for adding tasks -->
+      <form action="/add-task" method="post" id="form-add-task">
+        <div class="description-box">
+          <label for="task-description"> Description </label>
+          <input
+            type="text"
+            name="description"
+            placeholder="Type description here!"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="category-date-container">
+          <span>
+            <label for="category"> Category</label>
+            <select name="category">
+              <option disabled="disabled" selected>pick a category</option>
+              <option value="work">Work</option>
+              <option value="school">School</option>
+              <option value="personal">Personal</option>
+              <option value="Other">Other</option>
+            </select>
+          </span>
+          <span>
+            <label for="dueDate">Select Due date</label>
+            <input type="date" name="dueDate" />
+          </span>
+        </div>
       </form>
-      <form action="">
-        <button type="submit">Delete Tasks</button>
-        <% taskList.forEach(element => { %>
-        <input type="checkbox" name="<% element.desc %> " />
-        <label for="<% element.desc %> "><%= element.desc %> </label>
-        <% }) %>
+
+      <div class="buttons">
+        <button type="submit" form="form-add-task">
+          <i class="fas fa-plus"></i> Add
+        </button>
+        <button type="submit" form="form-delete-task">
+          <i class="far fa-trash-alt"></i> Delete
+        </button>
+      </div>
+
+      <!-- Second form for deleting tasks, It will display all tasks added by user -->
+      <form action="/delete-tasks" method="post" id="form-delete-task">
+        <div class="tasks-container">
+          <% taskList.forEach(element => { %>
+          <div class="task">
+            <input type="checkbox" name="taskId" value="<%= element._id %>"
+            onclick='strike("<%= element.description%>")'' />
+            <div class="task-info" id="<%= element.description%>">
+              <label for="<% element.description %>">
+                <%= element.description %></label
+              >
+              <div class="date">
+                <% if(element.dueDate) { %>
+                <i class="far fa-calendar-alt"></i> <%=
+                element.dueDate.toDateString() %><% } else { %> No Due Date <% }
+                %>
+              </div>
+            </div>
+            <div class="tag-container">
+              <span class="<%= element.category %> tag"
+                ><%= element.category %></span
+              >
+            </div>
+          </div>
+          <% }) %>
+        </div>
       </form>
     </div>
+
+    <script src="./js/home.js"></script>
   </body>
 </html>
